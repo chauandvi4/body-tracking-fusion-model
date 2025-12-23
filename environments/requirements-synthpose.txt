@@ -1,0 +1,10 @@
+numpy==1.26.4
+opencv-python
+pillow
+matplotlib
+scipy
+json-tricks
+munkres
+xtcocotools
+ultralytics
+huggingface_hub

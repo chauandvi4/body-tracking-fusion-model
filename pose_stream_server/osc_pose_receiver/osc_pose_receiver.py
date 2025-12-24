@@ -1,7 +1,7 @@
-"""Simple OSC receiver that ingests Unity upper-body pose packets.
+"""Simple UDP receiver that ingests Unity upper-body pose packets.
 
-This utility listens for the JSON payload sent by ``OscPoseSender`` and
-log the decoded Quest/upper-body pose data. It is intended to provide 
+This utility listens for the JSON payload sent by ``QuestBodyUdpSender`` and
+logs the decoded Quest/upper-body pose data. It is intended to provide
 a bridge between Unity and the Python fusion pipeline so that the
 communication layer can be validated without a connected headset.
 """
@@ -12,53 +12,9 @@ import argparse
 import asyncio
 import json
 import logging
-from dataclasses import dataclass
-from typing import Callable, Iterable, List, Sequence, Tuple
+from typing import Callable, Iterable, Sequence, Tuple
 
 logger = logging.getLogger(__name__)
-
-
-class OscError(RuntimeError):
-    """Raised when an OSC message cannot be decoded."""
-
-
-@dataclass
-class OscMessage:
-    address: str
-    arguments: Sequence[str]
-
-
-def _read_osc_string(buffer: bytes, offset: int) -> Tuple[str, int]:
-    try:
-        end = buffer.index(0, offset)
-    except ValueError as exc:  # pragma: no cover - defensive; datagrams are tiny
-        raise OscError("OSC string is not null terminated") from exc
-
-    value = buffer[offset:end].decode("ascii")
-    next_index = end + 1
-    next_index = (next_index + 3) & ~0x03
-    return value, min(next_index, len(buffer))
-
-
-def parse_osc_message(buffer: bytes) -> OscMessage:
-    """Parse the subset of OSC used by :class:`OscPoseSender`."""
-
-    address, index = _read_osc_string(buffer, 0)
-    type_tags, index = _read_osc_string(buffer, index)
-
-    if not type_tags.startswith(","):
-        raise OscError(f"Invalid OSC type tag string: {type_tags!r}")
-
-    arguments: List[str] = []
-    for tag in type_tags[1:]:
-        if tag == "s":
-            value, index = _read_osc_string(buffer, index)
-            arguments.append(value)
-        else:
-            raise OscError(f"Unsupported OSC type tag: {tag!r}")
-
-    return OscMessage(address=address, arguments=tuple(arguments))
-
 
 class PosePacketProtocol(asyncio.DatagramProtocol):
     def __init__(self, handler: Callable[[dict, Tuple[str, int]], None]) -> None:
@@ -67,13 +23,9 @@ class PosePacketProtocol(asyncio.DatagramProtocol):
 
     def datagram_received(self, data: bytes, addr: Tuple[str, int]) -> None:
         try:
-            message = parse_osc_message(data)
-            if not message.arguments:
-                logger.debug("OSC message %s had no arguments", message.address)
-                return
-            payload = json.loads(message.arguments[0])
-        except (OscError, json.JSONDecodeError) as exc:
-            logger.warning("Failed to decode OSC packet from %s: %s", addr, exc)
+            payload = json.loads(data.decode("utf-8"))
+        except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+            logger.warning("Failed to decode UDP packet from %s: %s", addr, exc)
             return
 
         self._handler(payload, addr)
@@ -85,7 +37,7 @@ async def run_server(host: str, port: int, on_packet: Callable[[dict, Tuple[str,
         lambda: PosePacketProtocol(on_packet), local_addr=(host, port)
     )
 
-    logger.info("Listening for OSC pose packets on udp://%s:%d", host, port)
+    logger.info("Listening for raw UDP pose packets on udp://%s:%d", host, port)
     try:
         await asyncio.Future()
     finally:
@@ -142,7 +94,7 @@ def main(argv: Sequence[str] | None = None) -> None:
     try:
         asyncio.run(run_server(args.host, args.port, _pretty_print_packet))
     except KeyboardInterrupt:
-        logger.info("Shutting down OSC receiver")
+        logger.info("Shutting down UDP receiver")
 
 
 if __name__ == "__main__":

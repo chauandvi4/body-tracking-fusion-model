@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
+using System.Text;
 using UnityEngine;
 
 public class QuestBodyUdpSender : MonoBehaviour
@@ -10,8 +11,8 @@ public class QuestBodyUdpSender : MonoBehaviour
     [Tooltip("PC IP address running the Python UDP receiver (same LAN/Wi-Fi).")]
     public string remoteIp = "10.20.21.11";
 
-    [Tooltip("UDP port on the PC to send to.")]
-    public int remotePort = 5005;
+    [Tooltip("UDP port on the PC to send to (python --port).")]
+    public int remotePort = 9000;
 
     [Tooltip("Send rate in Hz (e.g., 30).")]
     public int sendHz = 30;
@@ -20,16 +21,14 @@ public class QuestBodyUdpSender : MonoBehaviour
     [Tooltip("Reference to OVRBody component (on your rig).")]
     public OVRBody ovrBody;
 
+    [Tooltip("Optional transform to report as the HMD (falls back to the main camera).")]
+    public Transform hmdTransform;
+
     // Internal
     private UdpClient _udp;
     private IPEndPoint _remoteEndPoint;
     private float _sendInterval;
     private float _nextSendTime;
-    private uint _sequence;
-
-    // Packet constants
-    private const uint MAGIC = 0x42544A53; // 'BTJS' arbitrary marker
-    private const uint VERSION = 1;
 
     void Awake()
     {
@@ -38,11 +37,15 @@ public class QuestBodyUdpSender : MonoBehaviour
             ovrBody = FindObjectOfType<OVRBody>();
         }
 
+        if (hmdTransform == null && Camera.main != null)
+        {
+            hmdTransform = Camera.main.transform;
+        }
+
         _sendInterval = (sendHz <= 0) ? 0.0333f : (1.0f / sendHz);
         _remoteEndPoint = new IPEndPoint(IPAddress.Parse(remoteIp), remotePort);
         _udp = new UdpClient();
         _udp.Client.SendTimeout = 5; // ms; keep small
-        _sequence = 0;
         _nextSendTime = Time.unscaledTime;
     }
 
@@ -73,20 +76,64 @@ public class QuestBodyUdpSender : MonoBehaviour
         if (!TryGetBodyJoints(out List<JointSample> joints))
             return;
 
-        byte[] packet = BuildPacket(joints);
+        PosePacket packet = BuildPacket(joints);
+        byte[] payload = Encoding.UTF8.GetBytes(JsonUtility.ToJson(packet));
+
         try
         {
-            _udp.Send(packet, packet.Length, _remoteEndPoint);
+            _udp.Send(payload, payload.Length, _remoteEndPoint);
         }
         catch (Exception)
         {
-            // TODO: Send exceptions (Wi-Fi hiccups etc.).
+            // Network hiccups are ignored; Unity console will keep running.
         }
+    }
+
+    // Serializable containers for the JSON payload expected by the Python OSC receiver
+    [Serializable]
+    private struct PosePacket
+    {
+        public double timestamp;
+        public PoseTransform hmd;
+        public List<JointPayload> joints;
+    }
+
+    [Serializable]
+    private struct PoseTransform
+    {
+        public SerializableVector3 position;
+        public SerializableQuaternion rotation;
+    }
+
+    [Serializable]
+    private struct JointPayload
+    {
+        public string name;
+        public PoseTransform pose;
+        public float confidence;
+    }
+
+    [Serializable]
+    private struct SerializableVector3
+    {
+        public float x;
+        public float y;
+        public float z;
+    }
+
+    [Serializable]
+    private struct SerializableQuaternion
+    {
+        public float x;
+        public float y;
+        public float z;
+        public float w;
     }
 
     // A small container for one joint sample
     private struct JointSample
     {
+        public string name;
         public Vector3 pos;
         public Quaternion rot;
     }
@@ -113,7 +160,8 @@ public class QuestBodyUdpSender : MonoBehaviour
             Transform t = bones[i].Transform;
             joints.Add(new JointSample
             {
-                pos = t.position,    
+                name = bones[i].Id.ToString(),
+                pos = t.position,
                 rot = t.rotation,
             });
         }
@@ -121,60 +169,56 @@ public class QuestBodyUdpSender : MonoBehaviour
         return true;
     }
 
-    private byte[] BuildPacket(List<JointSample> joints)
+    private PosePacket BuildPacket(List<JointSample> joints)
     {
-        // timestamp in Unix microseconds
-        long tsUs = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() * 1000;
+        PosePacket packet = new PosePacket
+        {
+            timestamp = Time.timeAsDouble,
+            hmd = BuildTransform(hmdTransform),
+            joints = new List<JointPayload>(joints.Count),
+        };
 
-        // Compute packet size:
-        // header: magic(4) + version(4) + seq(4) + ts(8) + jointCount(2) + padding(2) = 24 bytes
-        // each joint: pos(12) + rot(16) + conf(4) = 32 bytes
-        int jointCount = joints.Count;
-        int headerSize = 24;
-        int jointSize = 32;
-        int totalSize = headerSize + (jointCount * jointSize);
-
-        byte[] buffer = new byte[totalSize];
-        int offset = 0;
-
-        void WriteUInt32(uint v)
+        float confidence = 0f;
+        if (ovrBody.TryGetComponent<OVRSkeleton>(out OVRSkeleton skeleton))
         {
-            Buffer.BlockCopy(BitConverter.GetBytes(v), 0, buffer, offset, 4);
-            offset += 4;
-        }
-        void WriteInt64(long v)
-        {
-            Buffer.BlockCopy(BitConverter.GetBytes(v), 0, buffer, offset, 8);
-            offset += 8;
-        }
-        void WriteUInt16(ushort v)
-        {
-            Buffer.BlockCopy(BitConverter.GetBytes(v), 0, buffer, offset, 2);
-            offset += 2;
-        }
-        void WriteFloat(float v)
-        {
-            Buffer.BlockCopy(BitConverter.GetBytes(v), 0, buffer, offset, 4);
-            offset += 4;
+            confidence = (skeleton.IsDataValid && skeleton.IsDataHighConfidence) ? 1f : 0f;
         }
 
-        // Header
-        WriteUInt32(MAGIC);
-        WriteUInt32(VERSION);
-        WriteUInt32(_sequence++);
-        WriteInt64(tsUs);
-        WriteUInt16((ushort)jointCount);
-        WriteUInt16(0); // padding for alignment
-
-        // Body
-        for (int i = 0; i < jointCount; i++)
+        for (int i = 0; i < joints.Count; i++)
         {
             var j = joints[i];
-            WriteFloat(j.pos.x); WriteFloat(j.pos.y); WriteFloat(j.pos.z);
-            WriteFloat(j.rot.x); WriteFloat(j.rot.y); WriteFloat(j.rot.z); WriteFloat(j.rot.w);
+            packet.joints.Add(new JointPayload
+            {
+                name = j.name,
+                pose = BuildTransform(j.pos, j.rot),
+                confidence = confidence,
+            });
         }
 
-        return buffer;
+        return packet;
+    }
+
+    private PoseTransform BuildTransform(Transform source)
+    {
+        if (source == null)
+        {
+            return new PoseTransform
+            {
+                position = new SerializableVector3(),
+                rotation = new SerializableQuaternion { w = 1f },
+            };
+        }
+
+        return BuildTransform(source.position, source.rotation);
+    }
+
+    private PoseTransform BuildTransform(Vector3 pos, Quaternion rot)
+    {
+        return new PoseTransform
+        {
+            position = new SerializableVector3 { x = pos.x, y = pos.y, z = pos.z },
+            rotation = new SerializableQuaternion { x = rot.x, y = rot.y, z = rot.z, w = rot.w },
+        };
     }
 
     /// <summary>

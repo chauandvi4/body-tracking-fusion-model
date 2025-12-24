@@ -4,10 +4,6 @@
 
 This is a hybrid framework for human body pose estimation using **MediaPipe**/**SynthPose MMPose** with external cameras, synchronized with **Meta Quest** tracking data for VR applications.
 
-## System Architecture
-
-![Future Architecture for solution](./FutureArchitecture.png)
-
 ## Installation and run camera modules
  Python 3.10 is recommended
 

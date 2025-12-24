@@ -1,21 +1,10 @@
-"""OSC pose receiver package."""
+"""Raw UDP pose receiver package."""
 
-from .osc_pose_receiver import (
-    OscError,
-    OscMessage,
-    PosePacketProtocol,
-    main,
-    parse_args,
-    parse_osc_message,
-    run_server,
-)
+from .osc_pose_receiver import PosePacketProtocol, main, parse_args, run_server
 
 __all__ = [
-    "OscError",
-    "OscMessage",
     "PosePacketProtocol",
     "main",
     "parse_args",
-    "parse_osc_message",
     "run_server",
 ]

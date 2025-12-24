@@ -18,7 +18,7 @@ sys.path.insert(0, str(project_root))
 # Shared fusion workspace so this process can publish pose snapshots
 from pose_stream_server.common.fusion_workspace import FusionWorkspace, PoseSnapshot
 # Helper to starts and listens to OSC
-from pose_stream_server.osc_pose_receiver.osc_pose_receiver import run_server as start_osc_server
+from pose_stream_server.udp_pose_receiver.udp_pose_receiver import run_server as start_osc_server
 
 logger = logging.getLogger(__name__)
 

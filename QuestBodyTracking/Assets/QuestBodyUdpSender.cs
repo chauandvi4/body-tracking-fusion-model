@@ -32,10 +32,7 @@ public class QuestBodyUdpSender : MonoBehaviour
 
     void Awake()
     {
-        if (ovrBody == null)
-        {
-            ovrBody = FindObjectOfType<OVRBody>();
-        }
+        ovrBody ??= FindObjectOfType<OVRBody>();
 
         if (hmdTransform == null && Camera.main != null)
         {

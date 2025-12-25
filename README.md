@@ -34,7 +34,7 @@ run-synthpose.bat
 
 ```bash
 cd pose_stream_server
-python -m pose_stream_server.osc_pose_receiver --host 0.0.0.0 --port 9000 --verbose
+python -m pose_stream_server.udp_pose_receiver --host 0.0.0.0 --port 9000 --verbose
 ```
 
 The sender packs each frame as a UTF‑8 JSON payload in a single UDP datagram (timestamp + HMD pose + all body joints). The Python receiver reads this JSON directly and logs a sample of the joint positions.

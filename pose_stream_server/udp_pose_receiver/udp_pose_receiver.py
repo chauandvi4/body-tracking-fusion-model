@@ -1,11 +1,3 @@
-"""Simple UDP receiver that ingests Unity upper-body pose packets.
-
-This utility listens for the JSON payload sent by ``QuestBodyUdpSender`` and
-logs the decoded Quest/upper-body pose data. It is intended to provide
-a bridge between Unity and the Python fusion pipeline so that the
-communication layer can be validated without a connected headset.
-"""
-
 from __future__ import annotations
 
 import argparse

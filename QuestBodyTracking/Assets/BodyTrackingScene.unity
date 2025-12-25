@@ -251,7 +251,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _monoscopic: 0
   _sharpenType: 0
-  _enableDynamicResolution: 1
+  _enableDynamicResolution: 0
   minDynamicResolutionScale: 1
   maxDynamicResolutionScale: 1
   quest2MinDynamicResolutionScale: 0.7
@@ -617,9 +617,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   remoteIp: 10.20.21.11
-  remotePort: 5005
+  remotePort: 9000
   sendHz: 30
-  ovrBody: {fileID: 0}
+  ovrBody: {fileID: 586707612}
+  hmdTransform: {fileID: 1033941737}
 --- !u!4 &919048631
 Transform:
   m_ObjectHideFlags: 0

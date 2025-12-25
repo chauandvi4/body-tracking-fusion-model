@@ -34,10 +34,19 @@ public class QuestBodyUdpSender : MonoBehaviour
     {
         ovrBody ??= FindObjectOfType<OVRBody>();
 
-        if (hmdTransform == null && Camera.main != null)
+        if (hmdTransform == null)
         {
-            hmdTransform = Camera.main.transform;
+            var rig = FindObjectOfType<OVRCameraRig>();
+            if (rig != null && rig.centerEyeAnchor != null)
+            {
+                hmdTransform = rig.centerEyeAnchor;
+            }
+            else if (Camera.main != null)
+            {
+                hmdTransform = Camera.main.transform;
+            }
         }
+
 
         _sendInterval = (sendHz <= 0) ? 0.0333f : (1.0f / sendHz);
         _remoteEndPoint = new IPEndPoint(IPAddress.Parse(remoteIp), remotePort);
@@ -79,6 +88,7 @@ public class QuestBodyUdpSender : MonoBehaviour
         try
         {
             _udp.Send(payload, payload.Length, _remoteEndPoint);
+            Debug.Log($"[UDP] Sent {joints.Count} joints to {remoteIp}:{remotePort}");
         }
         catch (Exception)
         {
@@ -181,7 +191,7 @@ public class QuestBodyUdpSender : MonoBehaviour
             confidence = (skeleton.IsDataValid && skeleton.IsDataHighConfidence) ? 1f : 0f;
         }
 
-        for (int i = 0; i < joints.Count; i++)
+        for (int i = 0; i < joints.Count && i< 10; i++)
         {
             var j = joints[i];
             packet.joints.Add(new JointPayload
@@ -226,8 +236,7 @@ public class QuestBodyUdpSender : MonoBehaviour
         if (body == null)
             return false;
 
-        OVRSkeleton skeleton;
-        if (!body.TryGetComponent<OVRSkeleton>(out skeleton))
+        if (!body.TryGetComponent<OVRSkeleton>(out OVRSkeleton skeleton))
             skeleton = body.GetComponentInChildren<OVRSkeleton>(true);
 
         if (skeleton == null)

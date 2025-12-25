@@ -47,7 +47,6 @@ public class QuestBodyUdpSender : MonoBehaviour
             }
         }
 
-
         _sendInterval = (sendHz <= 0) ? 0.0333f : (1.0f / sendHz);
         _remoteEndPoint = new IPEndPoint(IPAddress.Parse(remoteIp), remotePort);
         _udp = new UdpClient();
@@ -88,7 +87,6 @@ public class QuestBodyUdpSender : MonoBehaviour
         try
         {
             _udp.Send(payload, payload.Length, _remoteEndPoint);
-            Debug.Log($"[UDP] Sent {joints.Count} joints to {remoteIp}:{remotePort}");
         }
         catch (Exception)
         {
@@ -178,7 +176,7 @@ public class QuestBodyUdpSender : MonoBehaviour
 
     private PosePacket BuildPacket(List<JointSample> joints)
     {
-        PosePacket packet = new PosePacket
+        PosePacket packet = new()
         {
             timestamp = Time.timeAsDouble,
             hmd = BuildTransform(hmdTransform),
@@ -191,7 +189,7 @@ public class QuestBodyUdpSender : MonoBehaviour
             confidence = (skeleton.IsDataValid && skeleton.IsDataHighConfidence) ? 1f : 0f;
         }
 
-        for (int i = 0; i < joints.Count && i< 10; i++)
+        for (int i = 0; i < joints.Count; i++)
         {
             var j = joints[i];
             packet.joints.Add(new JointPayload

@@ -9,18 +9,18 @@ This is a hybrid framework for human body pose estimation using **MediaPipe**/**
 
 1. **Setup Mediapipe env:**
 
-```
-cd environments
+```bash
+cd camera-hpe-models\environments
 .\setup-mediapipe.bat
 .\run-mediapipe.bat
 ```
 
 2. **Setup Synthpose env:**
 
-```
-cd environments
-setup-synthpose.bat
-run-synthpose.bat
+``` bash
+cd camera-hpe-models\environments
+.\setup-synthpose.bat
+.\run-synthpose.bat
 ```
 
 ## Streaming Quest body data into the Python UDP receiver
@@ -33,7 +33,7 @@ run-synthpose.bat
 3. On the PC, start the UDP listener to view the incoming packets:
 
 ```bash
-cd pose_stream_server
+cd camera-hpe-models\pose_stream_server
 python -m pose_stream_server.udp_pose_receiver --host 0.0.0.0 --port 9000 --verbose
 ```
 

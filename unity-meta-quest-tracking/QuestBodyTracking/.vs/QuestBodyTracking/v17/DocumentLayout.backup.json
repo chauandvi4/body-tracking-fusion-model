@@ -3,8 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\optim\\test\\pose-estimation-by-camera-and-vr-headset\\unity-meta-quest-tracking\\QuestBodyTracking\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{C738B5F1-DB6C-0CDC-FBE8-7B221EA7E6EA}|Assembly-CSharp.csproj|C:\\Users\\optim\\test\\pose-estimation-by-camera-and-vr-headset\\unity-meta-quest-tracking\\QuestBodyTracking\\assets\\questbodyudpsender.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C738B5F1-DB6C-0CDC-FBE8-7B221EA7E6EA}|Assembly-CSharp.csproj|solutionrelative:assets\\questbodyudpsender.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C738B5F1-DB6C-0CDC-FBE8-7B221EA7E6EA}|Assembly-CSharp.csproj|C:\\Users\\optim\\test\\pose-estimation-by-camera-and-vr-headset\\unity-meta-quest-tracking\\QuestBodyTracking\\assets\\visualization\\questbodyudpsender.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C738B5F1-DB6C-0CDC-FBE8-7B221EA7E6EA}|Assembly-CSharp.csproj|solutionrelative:assets\\visualization\\questbodyudpsender.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C738B5F1-DB6C-0CDC-FBE8-7B221EA7E6EA}|Assembly-CSharp.csproj|c:\\users\\optim\\test\\pose-estimation-by-camera-and-vr-headset\\unity-meta-quest-tracking\\questbodytracking\\assets\\shared\\pipelineswitches.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C738B5F1-DB6C-0CDC-FBE8-7B221EA7E6EA}|Assembly-CSharp.csproj|solutionrelative:assets\\shared\\pipelineswitches.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C738B5F1-DB6C-0CDC-FBE8-7B221EA7E6EA}|Assembly-CSharp.csproj|C:\\Users\\optim\\test\\pose-estimation-by-camera-and-vr-headset\\unity-meta-quest-tracking\\QuestBodyTracking\\assets\\datacapture\\openxrbodyreader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C738B5F1-DB6C-0CDC-FBE8-7B221EA7E6EA}|Assembly-CSharp.csproj|solutionrelative:assets\\datacapture\\openxrbodyreader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\optim\\test\\pose-estimation-by-camera-and-vr-headset\\unity-meta-quest-tracking\\QuestBodyTracking\\Library\\PackageCache\\com.meta.xr.sdk.core@83.0.0\\Editor\\OVRGradleGeneration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -15,12 +23,16 @@
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Library\\PackageCache\\com.github.messagepack-csharp@39e4a79210\\UnityResolver.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C738B5F1-DB6C-0CDC-FBE8-7B221EA7E6EA}|Assembly-CSharp.csproj|C:\\Users\\optim\\test\\pose-estimation-by-camera-and-vr-headset\\unity-meta-quest-tracking\\QuestBodyTracking\\assets\\bodytrackinglogger.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C738B5F1-DB6C-0CDC-FBE8-7B221EA7E6EA}|Assembly-CSharp.csproj|solutionrelative:assets\\bodytrackinglogger.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\optim\\test\\pose-estimation-by-camera-and-vr-headset\\unity-meta-quest-tracking\\QuestBodyTracking\\Library\\PackageCache\\com.meta.xr.sdk.core@83.0.0\\Scripts\\BuildingBlocks\\AIBlocks\\Resources\\NMSCompute.compute||{8B382828-6202-11D1-8870-0000F87579D2}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Library\\PackageCache\\com.meta.xr.sdk.core@83.0.0\\Scripts\\BuildingBlocks\\AIBlocks\\Resources\\NMSCompute.compute||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\optim\\test\\pose-estimation-by-camera-and-vr-headset\\unity-meta-quest-tracking\\QuestBodyTracking\\Assets\\BodyTrackingLogger.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\BodyTrackingLogger.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\optim\\test\\pose-estimation-by-camera-and-vr-headset\\unity-meta-quest-tracking\\QuestBodyTracking\\Assets\\QuestBodyUdpSender.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Assets\\QuestBodyUdpSender.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,11 +42,49 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "QuestBodyUdpSender.cs",
+              "DocumentMoniker": "C:\\Users\\optim\\test\\pose-estimation-by-camera-and-vr-headset\\unity-meta-quest-tracking\\QuestBodyTracking\\Assets\\Visualization\\QuestBodyUdpSender.cs",
+              "RelativeDocumentMoniker": "Assets\\Visualization\\QuestBodyUdpSender.cs",
+              "ToolTip": "C:\\Users\\optim\\test\\pose-estimation-by-camera-and-vr-headset\\unity-meta-quest-tracking\\QuestBodyTracking\\Assets\\Visualization\\QuestBodyUdpSender.cs",
+              "RelativeToolTip": "Assets\\Visualization\\QuestBodyUdpSender.cs",
+              "ViewState": "AgIAAEMAAAAAAAAAAIA2wFgAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-26T16:36:11.966Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "PipelineSwitches.cs",
+              "DocumentMoniker": "C:\\Users\\optim\\test\\pose-estimation-by-camera-and-vr-headset\\unity-meta-quest-tracking\\QuestBodyTracking\\Assets\\Shared\\PipelineSwitches.cs",
+              "RelativeDocumentMoniker": "Assets\\Shared\\PipelineSwitches.cs",
+              "ToolTip": "C:\\Users\\optim\\test\\pose-estimation-by-camera-and-vr-headset\\unity-meta-quest-tracking\\QuestBodyTracking\\Assets\\Shared\\PipelineSwitches.cs",
+              "RelativeToolTip": "Assets\\Shared\\PipelineSwitches.cs",
+              "ViewState": "AgIAAB8AAAAAAAAAAAAkwDAAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-26T16:34:05.116Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "OpenXRBodyReader.cs",
+              "DocumentMoniker": "C:\\Users\\optim\\test\\pose-estimation-by-camera-and-vr-headset\\unity-meta-quest-tracking\\QuestBodyTracking\\Assets\\DataCapture\\OpenXRBodyReader.cs",
+              "RelativeDocumentMoniker": "Assets\\DataCapture\\OpenXRBodyReader.cs",
+              "ToolTip": "C:\\Users\\optim\\test\\pose-estimation-by-camera-and-vr-headset\\unity-meta-quest-tracking\\QuestBodyTracking\\Assets\\DataCapture\\OpenXRBodyReader.cs",
+              "RelativeToolTip": "Assets\\DataCapture\\OpenXRBodyReader.cs",
+              "ViewState": "AgIAAE0AAAAAAAAAAAAgwFsAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-26T16:31:33.487Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "OVRGradleGeneration.cs",
               "DocumentMoniker": "C:\\Users\\optim\\test\\pose-estimation-by-camera-and-vr-headset\\unity-meta-quest-tracking\\QuestBodyTracking\\Library\\PackageCache\\com.meta.xr.sdk.core@83.0.0\\Editor\\OVRGradleGeneration.cs",
               "RelativeDocumentMoniker": "Library\\PackageCache\\com.meta.xr.sdk.core@83.0.0\\Editor\\OVRGradleGeneration.cs",
@@ -42,16 +92,11 @@
               "RelativeToolTip": "Library\\PackageCache\\com.meta.xr.sdk.core@83.0.0\\Editor\\OVRGradleGeneration.cs",
               "ViewState": "AgIAAGwAAAAAAAAAAIAwwKsAAACUAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-26T00:09:30.113Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+              "WhenOpened": "2025-12-26T00:09:30.113Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "UnityResolver.cs",
               "DocumentMoniker": "C:\\Users\\optim\\test\\pose-estimation-by-camera-and-vr-headset\\unity-meta-quest-tracking\\QuestBodyTracking\\Library\\PackageCache\\com.github.messagepack-csharp@39e4a79210\\UnityResolver.cs",
               "RelativeDocumentMoniker": "Library\\PackageCache\\com.github.messagepack-csharp@39e4a79210\\UnityResolver.cs",
@@ -59,12 +104,11 @@
               "RelativeToolTip": "Library\\PackageCache\\com.github.messagepack-csharp@39e4a79210\\UnityResolver.cs",
               "ViewState": "AgIAACIAAAAAAAAAAIAwwDEAAABLAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-25T23:35:47.709Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-25T23:35:47.709Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "NMSCompute.compute",
               "DocumentMoniker": "C:\\Users\\optim\\test\\pose-estimation-by-camera-and-vr-headset\\unity-meta-quest-tracking\\QuestBodyTracking\\Library\\PackageCache\\com.meta.xr.sdk.core@83.0.0\\Scripts\\BuildingBlocks\\AIBlocks\\Resources\\NMSCompute.compute",
               "RelativeDocumentMoniker": "Library\\PackageCache\\com.meta.xr.sdk.core@83.0.0\\Scripts\\BuildingBlocks\\AIBlocks\\Resources\\NMSCompute.compute",
@@ -76,7 +120,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 7,
               "Title": "QuestBodyUdpSender.cs",
               "DocumentMoniker": "C:\\Users\\optim\\test\\pose-estimation-by-camera-and-vr-headset\\unity-meta-quest-tracking\\QuestBodyTracking\\Assets\\QuestBodyUdpSender.cs",
               "RelativeDocumentMoniker": "Assets\\QuestBodyUdpSender.cs",
@@ -84,12 +128,11 @@
               "RelativeToolTip": "Assets\\QuestBodyUdpSender.cs",
               "ViewState": "AgIAAAsAAAAAAAAAAAAAwBIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-24T22:33:01.616Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-24T22:33:01.616Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 6,
               "Title": "BodyTrackingLogger.cs",
               "DocumentMoniker": "C:\\Users\\optim\\test\\pose-estimation-by-camera-and-vr-headset\\unity-meta-quest-tracking\\QuestBodyTracking\\Assets\\BodyTrackingLogger.cs",
               "RelativeDocumentMoniker": "Assets\\BodyTrackingLogger.cs",

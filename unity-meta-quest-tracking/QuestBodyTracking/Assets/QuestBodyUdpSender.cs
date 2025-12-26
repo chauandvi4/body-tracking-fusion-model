@@ -4,9 +4,12 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using UnityEngine;
+using MessagePack;
+using UnityEngine.InputSystem;
 
 public class QuestBodyUdpSender : MonoBehaviour
 {
+    private const int MaxUdpPacketSize = 65507; // Max safe UDP packet size
     [Header("Networking")]
     [Tooltip("PC IP address running the Python UDP receiver (same LAN/Wi-Fi).")]
     public string remoteIp = "10.20.21.11";
@@ -29,6 +32,8 @@ public class QuestBodyUdpSender : MonoBehaviour
     private IPEndPoint _remoteEndPoint;
     private float _sendInterval;
     private float _nextSendTime;
+    private MessagePackSerializerOptions _messagePackOptions;
+    private float _lastOversizeLogTime;
 
     void Awake()
     {
@@ -52,6 +57,7 @@ public class QuestBodyUdpSender : MonoBehaviour
         _udp = new UdpClient();
         _udp.Client.SendTimeout = 5; // ms; keep small
         _nextSendTime = Time.unscaledTime;
+        _messagePackOptions = MessagePackSerializerOptions.Standard.WithSecurity(MessagePackSecurity.UntrustedData);
     }
 
     void OnDestroy()
@@ -82,7 +88,17 @@ public class QuestBodyUdpSender : MonoBehaviour
             return;
 
         PosePacket packet = BuildPacket(joints);
-        byte[] payload = Encoding.UTF8.GetBytes(JsonUtility.ToJson(packet));
+        byte[] payload = MessagePackSerializer.Serialize(packet, _messagePackOptions);
+
+        if (payload.Length > MaxUdpPacketSize)
+        {
+            if (Time.unscaledTime - _lastOversizeLogTime > 1f)
+            {
+                _lastOversizeLogTime = Time.unscaledTime;
+                Debug.LogWarning($"[QuestBodyUdpSender] Payload {payload.Length} bytes exceeds safe UDP size ({MaxUdpPacketSize} bytes); dropping to avoid fragmentation.");
+            }
+            return;
+        }
 
         try
         {
@@ -94,44 +110,64 @@ public class QuestBodyUdpSender : MonoBehaviour
         }
     }
 
-    // Serializable containers for the JSON payload expected by the Python OSC receiver
+    // Serializable containers for the MessagePack payload expected by the Python UDP receiver
     [Serializable]
-    private struct PosePacket
+    [MessagePackObject]
+    public struct PosePacket
     {
+        [Key("timestamp")]
         public double timestamp;
+        [Key("hmd")]
         public PoseTransform hmd;
+        [Key("joints")]
         public List<JointPayload> joints;
     }
 
     [Serializable]
-    private struct PoseTransform
+    [MessagePackObject]
+    public struct PoseTransform
     {
+        [Key("position")]
         public SerializableVector3 position;
+        [Key("rotation")]
         public SerializableQuaternion rotation;
     }
 
     [Serializable]
-    private struct JointPayload
+    [MessagePackObject]
+    public struct JointPayload
     {
+        [Key("name")]
         public string name;
+        [Key("pose")]
         public PoseTransform pose;
+        [Key("confidence")]
         public float confidence;
     }
 
     [Serializable]
-    private struct SerializableVector3
+    [MessagePackObject]
+    public struct SerializableVector3
     {
+        [Key("x")]
         public float x;
+        [Key("y")]
         public float y;
+        [Key("z")]
         public float z;
     }
 
     [Serializable]
-    private struct SerializableQuaternion
+    [MessagePackObject]
+    public struct SerializableQuaternion
     {
+        [Key("x")]
         public float x;
+        [Key("y")]
         public float y;
+        [Key("z")]
         public float z;
+        [Key("w")]
         public float w;
     }
 

@@ -8,3 +8,4 @@ munkres
 xtcocotools
 ultralytics
 huggingface_hub
+msgpack

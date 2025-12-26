@@ -5,6 +5,7 @@ import asyncio
 import json
 import logging
 from typing import Callable, Iterable, Sequence, Tuple
+import msgpack
 
 logger = logging.getLogger(__name__)
 
@@ -15,8 +16,8 @@ class PosePacketProtocol(asyncio.DatagramProtocol):
 
     def datagram_received(self, data: bytes, addr: Tuple[str, int]) -> None:
         try:
-            payload = json.loads(data.decode("utf-8"))
-        except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+            payload = msgpack.unpackb(data, raw=False)
+        except (msgpack.ExtraData, msgpack.FormatError, msgpack.StackError) as exc:
             logger.warning("Failed to decode UDP packet from %s: %s", addr, exc)
             return
 
@@ -59,11 +60,11 @@ def _pretty_print_packet(packet: dict, addr: Tuple[str, int]) -> None:
             f"{joint.get('name')}:({joint.get('pose', {}).get('position', {}).get('x', 0.0):.3f},"
             f" {joint.get('pose', {}).get('position', {}).get('y', 0.0):.3f},"
             f" {joint.get('pose', {}).get('position', {}).get('z', 0.0):.3f})"
-            for joint in joint_list[:4]
+            for joint in joint_list
         )
-        if len(joint_list) > 4:
-            joint_summary += ", ..."
-        logger.debug("Sample joints %s", joint_summary)
+        logger.debug("Joints %s", joint_summary)
+    
+    logger.info("Full packet payload from %s: %s", addr, json.dumps(packet, sort_keys=True))
 
 
 def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:

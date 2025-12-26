@@ -4,3 +4,4 @@ numpy==1.26.4
 protobuf==4.25.8
 absl-py==2.3.1
 sounddevice==0.5.3
+msgpack
